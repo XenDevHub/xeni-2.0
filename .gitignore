@@ -63,3 +63,5 @@ logs/
 .DS_Store
 Thumbs.db
 desktop.ini
+whatsaap_access_token
+scripts/run_remote.py

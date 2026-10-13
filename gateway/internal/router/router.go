@@ -24,6 +24,7 @@ import (
 	"github.com/xeni-ai/gateway/internal/orders"
 	"github.com/xeni-ai/gateway/internal/pages"
 	"github.com/xeni-ai/gateway/internal/products"
+	"github.com/xeni-ai/gateway/internal/public"
 	"github.com/xeni-ai/gateway/internal/rabbitmq"
 	"github.com/xeni-ai/gateway/internal/rules"
 	"github.com/xeni-ai/gateway/internal/shop"
@@ -74,6 +75,17 @@ func Setup(
 	})
 
 	api := app.Group("/api")
+
+	// ── Public Marketplace Routes (no auth — E-Pic Marketplace customer-facing) ──
+	publicHandler := public.NewHandler(db)
+	publicGroup := api.Group("/public")
+	publicGroup.Get("/products", publicHandler.ListProducts)
+	publicGroup.Get("/products/:id", publicHandler.GetProduct)
+	publicGroup.Get("/shops", publicHandler.ListShops)
+	publicGroup.Get("/shops/:id", publicHandler.GetShop)
+	publicGroup.Get("/search", publicHandler.Search)
+	publicGroup.Post("/orders", publicHandler.CreateOrder)
+	publicGroup.Get("/orders/:id", publicHandler.TrackOrder)
 
 	// ── Messenger & WhatsApp Webhooks (no auth — called by Meta) ──
 	messengerHandler := messenger.NewHandler(db, cfg, rmqClient)
