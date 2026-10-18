@@ -35,14 +35,14 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-xeni}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-xeni_secret}
-      POSTGRES_DB: ${POSTGRES_DB:-xeni_db}
+      POSTGRES_DB: ${POSTGRES_DB:-xeni2_db}
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - xeni2_postgres_data:/var/lib/postgresql/data
       - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-xeni} -d ${POSTGRES_DB:-xeni_db}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-xeni} -d ${POSTGRES_DB:-xeni2_db}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -152,7 +152,7 @@ services:
       - ./gateway/.env
     environment:
       PORT: "8080"
-      POSTGRES_URI: "postgres://xeni:xeni_secret@xeni-postgres:5432/xeni_db?sslmode=disable"
+      POSTGRES_URI: ${POSTGRES_URI:-postgres://xeni:xeni_secret@xeni-postgres:5432/xeni2_db?sslmode=disable}
       REDIS_URI: "redis://:xeni_secret@xeni-redis:6379/0"
       RABBITMQ_URI: "amqp://xeni:xeni_secret@xeni-rabbitmq:5672/xeni_vhost"
     ports:
@@ -258,7 +258,7 @@ services:
 # ──────────────────────────────────────────────────────────
 
 volumes:
-  postgres_data:
+  xeni2_postgres_data:
     driver: local
   mongodb_data:
     driver: local
