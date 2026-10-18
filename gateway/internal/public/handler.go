@@ -62,6 +62,7 @@ type PublicShopResponse struct {
 	ShopName              string                  `json:"shop_name"`
 	ShopDescription       *string                 `json:"shop_description"`
 	ShopLogoURL           *string                 `json:"shop_logo_url"`
+	ShopBannerURL         *string                 `json:"shop_banner_url"`
 	District              *string                 `json:"district"`
 	BkashMerchantNumber   *string                 `json:"bkash_merchant_number"`
 	NagadMerchantNumber   *string                 `json:"nagad_merchant_number"`
@@ -291,6 +292,7 @@ func (h *Handler) ListShops(c *fiber.Ctx) error {
 			ShopName:              s.ShopName,
 			ShopDescription:       s.ShopDescription,
 			ShopLogoURL:           s.ShopLogoURL,
+			ShopBannerURL:         s.ShopBannerURL,
 			District:              s.District,
 			BkashMerchantNumber:   s.BkashMerchantNumber,
 			NagadMerchantNumber:   s.NagadMerchantNumber,
@@ -349,6 +351,7 @@ func (h *Handler) GetShop(c *fiber.Ctx) error {
 		ShopName:              shop.ShopName,
 		ShopDescription:       shop.ShopDescription,
 		ShopLogoURL:           shop.ShopLogoURL,
+		ShopBannerURL:         shop.ShopBannerURL,
 		District:              shop.District,
 		BkashMerchantNumber:   shop.BkashMerchantNumber,
 		NagadMerchantNumber:   shop.NagadMerchantNumber,

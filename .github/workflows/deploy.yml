@@ -84,11 +84,13 @@ jobs:
 
             echo "== Syncing Git =="
             if [ ! -d ".git" ]; then
-              git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/XenDevHub/xeni.git .
+              git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/XenDevHub/xeni-2.0.git .
             else
               git stash || true
-              git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/XenDevHub/xeni.git
-              git pull origin main
+              git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/XenDevHub/xeni-2.0.git
+              git fetch origin main
+              git checkout -B main origin/main
+              git reset --hard origin/main
             fi
             
             echo "== Injecting Environment Variables =="

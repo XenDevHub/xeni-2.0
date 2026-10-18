@@ -34,6 +34,7 @@ func (h *Handler) CreateShop(c *fiber.Ctx) error {
 		ShopName            string  `json:"shop_name"`
 		ShopDescription     *string `json:"shop_description"`
 		ShopLogoURL         *string `json:"shop_logo_url"`
+		ShopBannerURL       *string `json:"shop_banner_url"`
 		PreferredLanguage   string  `json:"preferred_language"`
 		CourierPreference   string  `json:"courier_preference"`
 		BkashMerchantNumber *string `json:"bkash_merchant_number"`
@@ -61,6 +62,7 @@ func (h *Handler) CreateShop(c *fiber.Ctx) error {
 		ShopName:            req.ShopName,
 		ShopDescription:     req.ShopDescription,
 		ShopLogoURL:         req.ShopLogoURL,
+		ShopBannerURL:       req.ShopBannerURL,
 		PreferredLanguage:   req.PreferredLanguage,
 		CourierPreference:   req.CourierPreference,
 		BkashMerchantNumber: req.BkashMerchantNumber,
@@ -128,6 +130,9 @@ func (h *Handler) UpdateMyShop(c *fiber.Ctx) error {
 		BkashAppSecret      *string                 `json:"bkash_app_secret"`
 		NagadMerchantID     *string                 `json:"nagad_merchant_id"`
 		NagadMerchantKey    *string                 `json:"nagad_merchant_key"`
+		SSLCommerzStoreID   *string                 `json:"sslcommerz_store_id"`
+		SSLCommerzStorePass *string                 `json:"sslcommerz_store_passwd"`
+		SSLCommerzIsLive    *bool                   `json:"sslcommerz_is_live"`
 		AutoReplyEnabled    *bool                   `json:"auto_reply_enabled"`
 		AutoOrderEnabled    *bool                   `json:"auto_order_enabled"`
 		Integrations        *map[string]interface{} `json:"integrations"`
@@ -146,6 +151,9 @@ func (h *Handler) UpdateMyShop(c *fiber.Ctx) error {
 	}
 	if req.ShopLogoURL != nil {
 		updates["shop_logo_url"] = *req.ShopLogoURL
+	}
+	if req.ShopBannerURL != nil {
+		updates["shop_banner_url"] = *req.ShopBannerURL
 	}
 	if req.PreferredLanguage != nil {
 		updates["preferred_language"] = *req.PreferredLanguage
@@ -168,6 +176,15 @@ func (h *Handler) UpdateMyShop(c *fiber.Ctx) error {
 	}
 	if req.District != nil {
 		updates["district"] = *req.District
+	}
+	if req.SSLCommerzStoreID != nil {
+		updates["sslcommerz_store_id"] = *req.SSLCommerzStoreID
+	}
+	if req.SSLCommerzStorePass != nil && *req.SSLCommerzStorePass != "" {
+		updates["sslcommerz_store_passwd"] = *req.SSLCommerzStorePass
+	}
+	if req.SSLCommerzIsLive != nil {
+		updates["sslcommerz_is_live"] = *req.SSLCommerzIsLive
 	}
 	if req.DeliveryChargeInside != nil {
 		updates["delivery_charge_inside"] = *req.DeliveryChargeInside

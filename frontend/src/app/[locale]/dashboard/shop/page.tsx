@@ -12,6 +12,9 @@ interface Shop {
   shop_name: string;
   shop_description: string | null;
   shop_logo_url: string | null;
+  shop_banner_url?: string | null;
+  sslcommerz_store_id?: string | null;
+  sslcommerz_is_live?: boolean;
   preferred_language: string;
   courier_preference: string;
   bkash_merchant_number: string | null;
@@ -38,6 +41,8 @@ export default function ShopPage() {
   const [form, setForm] = useState({
     shop_name: '',
     shop_description: '',
+    shop_logo_url: '',
+    shop_banner_url: '',
     preferred_language: 'bn',
     courier_preference: 'pathao',
     bkash_merchant_number: '',
@@ -51,6 +56,9 @@ export default function ShopPage() {
     bkash_app_secret: '',
     nagad_merchant_id: '',
     nagad_merchant_key: '',
+    sslcommerz_store_id: '',
+    sslcommerz_store_passwd: '',
+    sslcommerz_is_live: false,
     auto_reply_enabled: true,
     auto_order_enabled: true,
     custom_agent_rules: '',
@@ -79,6 +87,8 @@ export default function ShopPage() {
         setForm({
           shop_name: s.shop_name || '',
           shop_description: s.shop_description || '',
+          shop_logo_url: s.shop_logo_url || '',
+          shop_banner_url: s.shop_banner_url || '',
           preferred_language: s.preferred_language || 'bn',
           courier_preference: s.courier_preference || 'pathao',
           bkash_merchant_number: s.bkash_merchant_number || '',
@@ -92,6 +102,9 @@ export default function ShopPage() {
           bkash_app_secret: '', // Security: don't show secret
           nagad_merchant_id: s.nagad_merchant_id || '',
           nagad_merchant_key: '', // Security: don't show secret
+          sslcommerz_store_id: s.sslcommerz_store_id || '',
+          sslcommerz_store_passwd: '',
+          sslcommerz_is_live: s.sslcommerz_is_live ?? false,
           auto_reply_enabled: s.auto_reply_enabled ?? true,
           auto_order_enabled: s.auto_order_enabled ?? true,
           custom_agent_rules: s.custom_agent_rules || '',
@@ -177,6 +190,40 @@ export default function ShopPage() {
               value={form.shop_description}
               onChange={e => setForm({ ...form, shop_description: e.target.value })}
             />
+          </div>
+
+          {/* Shop Branding (Logo & Banner) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Shop Logo URL</label>
+              <input
+                className="input-field"
+                placeholder="https://.../logo.png"
+                value={form.shop_logo_url}
+                onChange={e => setForm({ ...form, shop_logo_url: e.target.value })}
+              />
+              {form.shop_logo_url && (
+                <div className="mt-2 w-12 h-12 rounded-xl overflow-hidden border border-gray-600">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={form.shop_logo_url} alt="Logo preview" className="w-full h-full object-cover" />
+                </div>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Shop Banner URL (E-Pic Storefront)</label>
+              <input
+                className="input-field"
+                placeholder="https://.../banner.jpg (16:9 or 4:1 banner)"
+                value={form.shop_banner_url}
+                onChange={e => setForm({ ...form, shop_banner_url: e.target.value })}
+              />
+              {form.shop_banner_url && (
+                <div className="mt-2 aspect-[4/1] rounded-xl overflow-hidden border border-gray-600">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={form.shop_banner_url} alt="Banner preview" className="w-full h-full object-cover" />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Contact & Location */}
@@ -365,6 +412,37 @@ export default function ShopPage() {
                   <div>
                     <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Merchant Key <span className="text-[10px] text-gray-400">(leave blank if unchanged)</span></label>
                     <input className="input-field" type="password" placeholder="Nagad Merchant Key" value={form.nagad_merchant_key} onChange={e => setForm({ ...form, nagad_merchant_key: e.target.value })} />
+                  </div>
+                </div>
+              </div>
+
+              {/* SSLCommerz Online Payment Gateway */}
+              <div className="p-4 rounded-xl shadow-sm border" style={{ borderColor: 'var(--border-color)', background: 'var(--bg-primary)' }}>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-semibold flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                    <Lock className="w-4 h-4" /> SSLCommerz Multi-Card Gateway
+                  </h3>
+                  <label className="flex items-center gap-2 cursor-pointer text-xs">
+                    <span style={{ color: 'var(--text-muted)' }}>{form.sslcommerz_is_live ? '🔴 Live Mode' : '🟡 Sandbox Test'}</span>
+                    <input
+                      type="checkbox"
+                      checked={form.sslcommerz_is_live}
+                      onChange={e => setForm({ ...form, sslcommerz_is_live: e.target.checked })}
+                      className="rounded"
+                    />
+                  </label>
+                </div>
+                <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
+                  E-Pic মার্কেটপ্লেসে কাস্টমার কার্ড বা নেট ব্যাংকিং দিয়ে পে করলে টাকা সরাসরি আপনার এই SSLCommerz অ্যাকাউন্টে জমা হবে।
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Store ID</label>
+                    <input className="input-field" placeholder="e.g. yourstore001" value={form.sslcommerz_store_id} onChange={e => setForm({ ...form, sslcommerz_store_id: e.target.value })} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Store Password <span className="text-[10px] text-gray-400">(leave blank if unchanged)</span></label>
+                    <input className="input-field" type="password" placeholder="Store Password" value={form.sslcommerz_store_passwd} onChange={e => setForm({ ...form, sslcommerz_store_passwd: e.target.value })} />
                   </div>
                 </div>
               </div>

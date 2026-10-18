@@ -23,7 +23,7 @@ CREATE TYPE subscription_status AS ENUM ('active', 'past_due', 'cancelled', 'tri
 CREATE TYPE payment_status AS ENUM ('pending', 'success', 'failed', 'refunded');
 CREATE TYPE agent_type AS ENUM ('conversation', 'order', 'inventory', 'creative', 'intelligence');
 CREATE TYPE task_status AS ENUM ('queued', 'processing', 'completed', 'failed');
-CREATE TYPE order_payment_method AS ENUM ('bkash', 'nagad', 'cod');
+CREATE TYPE order_payment_method AS ENUM ('bkash', 'nagad', 'cod', 'sslcommerz');
 CREATE TYPE order_payment_status AS ENUM ('pending', 'verified', 'failed', 'manual_required');
 CREATE TYPE order_delivery_status AS ENUM ('pending', 'booked', 'in_transit', 'delivered', 'returned');
 CREATE TYPE message_direction AS ENUM ('inbound', 'outbound');
@@ -117,10 +117,14 @@ CREATE TABLE shops (
     shop_name               VARCHAR(255) NOT NULL,
     shop_description        TEXT,
     shop_logo_url           TEXT,
+    shop_banner_url         TEXT,
     preferred_language      VARCHAR(5) NOT NULL DEFAULT 'bn',      -- "bn" | "en"
     courier_preference      VARCHAR(20) NOT NULL DEFAULT 'pathao', -- "pathao" | "steadfast"
     bkash_merchant_number   VARCHAR(20),
     nagad_merchant_number   VARCHAR(20),
+    sslcommerz_store_id     VARCHAR(255),
+    sslcommerz_store_passwd VARCHAR(255),
+    sslcommerz_is_live      BOOLEAN NOT NULL DEFAULT FALSE,
     auto_reply_enabled      BOOLEAN NOT NULL DEFAULT TRUE,
     auto_order_enabled      BOOLEAN NOT NULL DEFAULT TRUE,
     created_at              TIMESTAMPTZ NOT NULL DEFAULT NOW(),

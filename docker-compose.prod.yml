@@ -18,7 +18,7 @@ services:
 
   # ── Application Services ──
   gateway:
-    image: ghcr.io/xendevhub/xeni/gateway:latest
+    image: ghcr.io/xendevhub/xeni-2.0/gateway:latest
     build: null
     profiles: []
     restart: always
@@ -27,7 +27,7 @@ services:
       - ./gateway/.env
 
   frontend:
-    image: ghcr.io/xendevhub/xeni/frontend:latest
+    image: ghcr.io/xendevhub/xeni-2.0/frontend:latest
     build: null
     profiles: []
     restart: always
@@ -36,42 +36,42 @@ services:
       - ./frontend/.env
 
   worker-conversation:
-    image: ghcr.io/xendevhub/xeni/workers:latest
+    image: ghcr.io/xendevhub/xeni-2.0/workers:latest
     build: null
     profiles: []
     restart: always
     mem_limit: 64m
 
   worker-order:
-    image: ghcr.io/xendevhub/xeni/workers:latest
+    image: ghcr.io/xendevhub/xeni-2.0/workers:latest
     build: null
     profiles: []
     restart: always
     mem_limit: 64m
 
   worker-inventory:
-    image: ghcr.io/xendevhub/xeni/workers:latest
+    image: ghcr.io/xendevhub/xeni-2.0/workers:latest
     build: null
     profiles: []
     restart: always
     mem_limit: 64m
 
   worker-creative:
-    image: ghcr.io/xendevhub/xeni/workers:latest
+    image: ghcr.io/xendevhub/xeni-2.0/workers:latest
     build: null
     profiles: []
     restart: always
     mem_limit: 64m
 
   worker-intelligence:
-    image: ghcr.io/xendevhub/xeni/workers:latest
+    image: ghcr.io/xendevhub/xeni-2.0/workers:latest
     build: null
     profiles: []
     restart: always
     mem_limit: 64m
 
   worker-comment:
-    image: ghcr.io/xendevhub/xeni/workers:latest
+    image: ghcr.io/xendevhub/xeni-2.0/workers:latest
     build: null
     profiles: []
     restart: always

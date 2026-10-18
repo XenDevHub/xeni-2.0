@@ -16,6 +16,7 @@ type Shop struct {
 	ShopName            string    `gorm:"size:255;not null" json:"shop_name"`
 	ShopDescription     *string   `gorm:"type:text" json:"shop_description"`
 	ShopLogoURL         *string   `gorm:"type:text" json:"shop_logo_url"`
+	ShopBannerURL       *string   `gorm:"type:text" json:"shop_banner_url"`
 	PreferredLanguage   string    `gorm:"size:5;default:'bn';not null" json:"preferred_language"`
 	CourierPreference   string    `gorm:"size:20;default:'pathao';not null" json:"courier_preference"`
 	BkashMerchantNumber *string   `gorm:"size:20" json:"bkash_merchant_number"`
@@ -32,6 +33,9 @@ type Shop struct {
 	BkashPassword       *string   `gorm:"size:255" json:"-"`
 	NagadMerchantID     *string   `gorm:"size:255" json:"nagad_merchant_id"`
 	NagadMerchantKey    *string   `gorm:"size:255" json:"-"`
+	SSLCommerzStoreID   *string   `gorm:"column:sslcommerz_store_id;size:255" json:"sslcommerz_store_id"`
+	SSLCommerzStorePass *string   `gorm:"column:sslcommerz_store_passwd;size:255" json:"-"`
+	SSLCommerzIsLive    bool      `gorm:"column:sslcommerz_is_live;default:false;not null" json:"sslcommerz_is_live"`
 	PathaoClientID      *string   `gorm:"size:255" json:"-"`
 	PathaoClientSecret  *string   `gorm:"size:255" json:"-"`
 	PathaoUsername      *string   `gorm:"size:100" json:"-"`
@@ -125,6 +129,7 @@ const (
 	PaymentBkash OrderPaymentMethod = "bkash"
 	PaymentNagad OrderPaymentMethod = "nagad"
 	PaymentCOD   OrderPaymentMethod = "cod"
+	PaymentSSLCommerz OrderPaymentMethod = "sslcommerz"
 )
 
 type OrderPaymentStatus string

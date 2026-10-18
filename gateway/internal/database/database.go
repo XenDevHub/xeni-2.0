@@ -127,6 +127,11 @@ func autoMigrate(db *gorm.DB) error {
 		"ALTER TABLE orders ADD COLUMN IF NOT EXISTS verified_by VARCHAR(20) DEFAULT NULL",
 		"ALTER TABLE orders ADD COLUMN IF NOT EXISTS verified_at TIMESTAMPTZ DEFAULT NULL",
 		"ALTER TABLE orders ADD COLUMN IF NOT EXISTS admin_note TEXT DEFAULT NULL",
+		"ALTER TABLE shops ADD COLUMN IF NOT EXISTS shop_banner_url TEXT",
+		"ALTER TABLE shops ADD COLUMN IF NOT EXISTS sslcommerz_store_id VARCHAR(255)",
+		"ALTER TABLE shops ADD COLUMN IF NOT EXISTS sslcommerz_store_passwd VARCHAR(255)",
+		"ALTER TABLE shops ADD COLUMN IF NOT EXISTS sslcommerz_is_live BOOLEAN DEFAULT FALSE",
+		"ALTER TYPE order_payment_method ADD VALUE IF NOT EXISTS 'sslcommerz'",
 	}
 	for _, stmt := range columnEnsures {
 		if err := db.Exec(stmt).Error; err != nil {

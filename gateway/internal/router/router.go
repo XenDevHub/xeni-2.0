@@ -86,6 +86,11 @@ func Setup(
 	publicGroup.Get("/search", publicHandler.Search)
 	publicGroup.Post("/orders", publicHandler.CreateOrder)
 	publicGroup.Get("/orders/:id", publicHandler.TrackOrder)
+	publicGroup.Post("/payments/sslcommerz/init", publicHandler.InitSSLCommerzPayment)
+	publicGroup.Post("/payments/sslcommerz/success", publicHandler.SSLCommerzSuccess)
+	publicGroup.Post("/payments/sslcommerz/fail", publicHandler.SSLCommerzFail)
+	publicGroup.Post("/payments/sslcommerz/cancel", publicHandler.SSLCommerzCancel)
+	publicGroup.Post("/payments/sslcommerz/ipn", publicHandler.SSLCommerzIPN)
 
 	// ── Messenger & WhatsApp Webhooks (no auth — called by Meta) ──
 	messengerHandler := messenger.NewHandler(db, cfg, rmqClient)
